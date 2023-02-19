@@ -7,7 +7,7 @@ body {
 }
 
 header {
-  background-color: #006d5b;
+  background-color: #cc5500;
   color: #fff;
   display: flex;
   flex-direction: row;
@@ -33,11 +33,12 @@ nav a {
   color: #fff;
   text-decoration: none;
   font-weight: bold;
+  font-size: 1.6em;
   transition: color 0.2s ease-in-out;
 }
 
 nav a:hover {
-  color: #ffc107;
+  color: #006666;
 }
 
 main {
@@ -47,7 +48,7 @@ main {
 section h1 {
   font-size: 36px;
   font-weight: bold;
-  color: #ffc107;
+  color: #006666;
   margin-bottom: 10px;
 }
 
@@ -59,7 +60,7 @@ section p {
 }
 
 footer {
-  background-color: #006d5b;
+  background-color: #cc5500;
   color: #fff;
   font-weight: bold;
   transition: color 0.2s ease-in-out;
@@ -135,7 +136,7 @@ section {
 }
 
 .contact-form button:hover {
-  background-color: #ffc107;
+  background-color: #006666;
 }
 
 .contact-form input[type="text"],
@@ -149,7 +150,7 @@ section {
 }
 
 nav ul li.current a {
-  color: #ffc107;
+  color: #006666;
 }
 
 @media screen and (max-width: 768px) {
