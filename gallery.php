@@ -1,3 +1,5 @@
+<!-- Mark Karels -->
+
 <?php
 $title = "Gallery";
 require("header.php");

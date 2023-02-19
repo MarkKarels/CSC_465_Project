@@ -1,3 +1,5 @@
+<!-- Mark Karels -->
+
 <?php
 $title = "School Schedule";
 include "header.php";

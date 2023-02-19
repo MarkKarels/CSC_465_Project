@@ -1,3 +1,5 @@
+<!-- Mark Karels -->
+
 <?php
 $title = "Projects";
 require("header.php");
