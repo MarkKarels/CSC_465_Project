@@ -8,6 +8,7 @@
     <title>
         <?php echo $title; ?>
     </title>
+    <link rel="icon" type="image/x-icon" href="assets/images/EPP.ico">
     <link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
 
@@ -17,6 +18,9 @@
             <a href="index.php">
                 <img src="assets/images/EPP.png" alt="Engineering Personal Portfolio">
             </a>
+            <span id="name">
+                <?php echo $title; ?>
+            </span>
         </div>
         <nav>
             <ul>

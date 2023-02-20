@@ -13,7 +13,6 @@ header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  min-height: 0px;
   padding: 0 30px;
 }
 
@@ -33,7 +32,7 @@ nav a {
   color: #fff;
   text-decoration: none;
   font-weight: bold;
-  font-size: 1.6em;
+  font-size: 1.5em;
   transition: color 0.2s ease-in-out;
 }
 
@@ -80,6 +79,7 @@ footer p {
 .logo-container img {
   max-height: 20%;
   max-width: 20%;
+  float: left;
 }
 
 section {
@@ -151,6 +151,20 @@ section {
 
 nav ul li.current a {
   color: #00ced1;
+}
+
+.logo-container img {
+  max-height: 20%;
+  max-width: 20%;
+}
+
+#name {
+  font-size: 2em;
+  font-weight: bold;
+  padding-left: 10px;
+  padding-top: 0.74em;
+  align-content: end;
+  height: 10%;
 }
 
 @media screen and (max-width: 768px) {
