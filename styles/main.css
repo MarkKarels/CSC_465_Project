@@ -48,7 +48,7 @@ main {
 section h1 {
   font-size: 36px;
   font-weight: bold;
-  color: #006666;
+  color: #00ced1;
   margin-bottom: 10px;
 }
 
@@ -128,7 +128,7 @@ section {
   font-size: 18px;
   font-weight: bold;
   color: #fff;
-  background-color: #006d5b;
+  background-color: #00ced1;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -136,7 +136,7 @@ section {
 }
 
 .contact-form button:hover {
-  background-color: #006666;
+  background-color: #00ced1;
 }
 
 .contact-form input[type="text"],
@@ -150,7 +150,7 @@ section {
 }
 
 nav ul li.current a {
-  color: #006666;
+  color: #00ced1;
 }
 
 @media screen and (max-width: 768px) {
