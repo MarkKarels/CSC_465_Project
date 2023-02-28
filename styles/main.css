@@ -121,6 +121,13 @@ section {
   border-radius: 5px;
 }
 
+.contact-form label,
+.contact-form input,
+.contact-form textarea {
+  font-size: 20px;
+  line-height: 1.5;
+}
+
 .contact-form button {
   display: block;
   margin: 0 auto;
@@ -193,6 +200,6 @@ nav ul li.current a {
   }
 
   nav .active a {
-    border-bottom: 1px solid #ffc107;
+    border-bottom: 1px solid #00ced1;
   }
 }
