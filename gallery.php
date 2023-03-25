@@ -2,89 +2,103 @@
 
 <?php
 $title = "Gallery";
-require("header.php");
+require 'includes/header.php';
+require_once '../../mysqli_connect.php';
 
-// set the directory where uploaded images will be saved
-$targetDir = "assets/images";
+define('COLS', 2);
+define('ROWS', 3);
 
-// check if the form has been submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // get the uploaded file and other form data
-    $fileName = $_FILES["file"]["name"];
-    $fileType = $_FILES["file"]["type"];
-    $fileSize = $_FILES["file"]["size"];
-    $fileTmpName = $_FILES["file"]["tmp_name"];
-    $description = $_POST["description"];
-
-    // set the file path to save the uploaded image
-    $filePath = $targetDir . $fileName;
-
-    // check if the uploaded file is an image
-    if (getimagesize($fileTmpName)) {
-        // move the uploaded file to the target directory
-        if (move_uploaded_file($fileTmpName, $filePath)) {
-            // add the image data to a JSON file
-            $jsonData = file_get_contents("gallery.json");
-            $images = json_decode($jsonData, true);
-            $images[] = array("file" => $fileName, "description" => $description);
-            $jsonData = json_encode($images);
-            file_put_contents("gallery.json", $jsonData);
-
-            echo "<p>File uploaded successfully.</p>";
-        } else {
-            echo "<p>There was an error uploading your file. Please try again later.</p>";
-        }
-    } else {
-        echo "<p>Invalid file type. Please upload an image file.</p>";
-    }
+$countQuery = "SELECT COUNT(*) AS numImages FROM Portfolio_Images";
+$countResult = mysqli_query($dbc, $countQuery);
+if (!$countResult) {
+    echo "We are unable to process your request at this time. Please try again later.";
+    include 'includes/footer.php';
+    exit;
 }
+
+function shortTitle($title)
+{
+    $title = substr($title, 0, -4);
+    $title = str_replace('_', ' ', $title);
+    $title = ucwords($title);
+    return $title;
+}
+
+$countRow = mysqli_fetch_assoc($countResult);
+$numImages = $countRow['numImages'];
+$numPages = ceil($numImages / (COLS * ROWS));
+$pageNumber = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$offset = (COLS * ROWS) * ($pageNumber - 1);
+$imageQuery = "SELECT filename, caption FROM Portfolio_Images LIMIT $offset, " . (COLS * ROWS);
+$imageResult = mysqli_query($dbc, $imageQuery);
+if (!$imageResult) {
+    echo "We are unable to process your request at this time. Please try again later.";
+    include 'includes/footer.php';
+    exit;
+}
+
+$counter = 0;
+$selectedFilename = isset($_GET['filename']) ? $_GET['filename'] : '';
+
+$selectedCaption = '';
 ?>
-
-<section>
-    <h1>Gallery</h1>
-    <p>Show screenshots and/or videos of your working assignments to prospective employers.</p>
-
-    <!-- display images from JSON file -->
+<main>
+    <h2>Portfolio Project Photos</h2>
     <?php
-    $jsonData = file_get_contents("gallery.json");
-    $images = json_decode($jsonData, true);
-
-    foreach ($images as $image) {
-        // create a div to contain the image and description
-        echo "<div class='image-container'>";
-
-        // display the image
-        echo "<img src='" . $targetDir . $image["file"] . "' alt='" . $image["description"] . "'>";
-
-        // display the image description
-        echo "<p>" . $image["description"] . "</p>";
-
-        // close the image-container div
-        echo "</div>";
-    }
+    $firstImage = ($offset + 1);
+    $lastImage = min($firstImage + (COLS * ROWS) - 1, $numImages);
     ?>
+    <p id="picCount">Displaying images
+        <?= $firstImage ?> to
+        <?= $lastImage ?> of
+        <?= $numImages ?>
+    </p>
+    <section id="gallery">
+        <table id="thumbs">
+            <?php
+            while ($imageRow = mysqli_fetch_assoc($imageResult)) {
+                if ($counter % COLS == 0) {
+                    echo "<tr>";
+                }
+                echo '<td><a href="gallery.php?filename=' . $imageRow['filename'] . '&page=' . $pageNumber . '"><img src="images/' . $imageRow['filename'] . '" alt="' . shortTitle($imageRow['caption']) . '" width="80" height="54"></a></td>';
 
-    <!-- add image upload form -->
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
-        <label for="file">Choose image:</label>
-        <input type="file" name="file" id="file" required>
-        <label for="description">Image description:</label>
-        <textarea name="description" id="description" required></textarea>
-        <button type="submit">Upload</button>
-    </form>
-</section>
+                if ($selectedFilename == '' || $selectedFilename == $imageRow['filename']) {
+                    $selectedFilename = $imageRow['filename'];
+                    $selectedCaption = $imageRow['caption'];
+                }
 
-<style>
-    .image-container {
-        float: left;
-        width: 50%;
-        box-sizing: border-box;
-        padding: 10px;
-        text-align: center;
-    }
+                $counter++;
+            }
+            while ($counter % COLS != 0) {
+                echo '<td></td>';
+                $counter++;
+            }
+            if ($counter % COLS == 0) {
+                echo "</tr>";
+            }
 
-    .image-container img {
-        max-width: 100%;
-        height: auto;
-    }
-</style>
+            if ($pageNumber == 1 && $lastImage < $numImages) {
+                // Display Next link only
+                echo '<tr><td colspan="' . (COLS - 1) . '"></td><td><a href="gallery.php?page=' . ($pageNumber + 1) . '&$start=' . ($offset + (COLS * ROWS) + 1) . '">Next&gt;&gt;</a></td></tr>';
+            } else if ($pageNumber > 1 && $lastImage < $numImages) {
+                // Display Prev and Next links
+                echo '<tr><td><a href="gallery.php?page=' . ($pageNumber - 1) . '&$start=' . ($offset - (COLS * ROWS) + 1)
+                    . '">&lt;&lt;Prev</a></td><td align="right"><a href="gallery.php?page=' . ($pageNumber + 1) . '&$start=' . ($offset + (COLS * ROWS)) . '">Next&gt;&gt;</a></td></tr>';
+            } else if ($pageNumber > 1) {
+                // Display Prev link only
+                echo '<tr><td><a href="gallery.php?page=' . ($pageNumber - 1) . '&$start=' . ($offset - (COLS * ROWS) + 1) . '">&lt;&lt;Prev</a></td><td></td></tr>';
+            }
+            ?>
+        </table>
+        <figure id="main_image">
+            <img src="images/<?= $selectedFilename ?>" alt="<?= shortTitle($selectedCaption) ?>">
+            <figcaption>
+                <?= $selectedCaption ?>
+            </figcaption>
+        </figure>
+    </section>
+</main>
+<?php
+include 'includes/footer.php';
+echo '<link rel="stylesheet" type="text/css" href="styles/gallery.css">';
+?>

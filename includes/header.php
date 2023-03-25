@@ -1,5 +1,9 @@
 <!-- Mark Karels -->
 
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +29,8 @@
         <nav>
             <ul>
                 <li <?php if ($title == 'Engineering Personal Portfolio')
-                    echo 'class="current"'; ?>><a href="index.php">Home</a></li>
+                    echo 'class="current"'; ?>><a
+                        href="index.php">Home</a></li>
                 <li <?php if ($title == 'Projects')
                     echo 'class="current"'; ?>><a href="projects.php">Projects</a></li>
                 <li <?php if ($title == 'School Schedule')
@@ -40,6 +45,13 @@
                     echo 'class="current"'; ?>><a href="gallery.php">Gallery</a></li>
                 <li <?php if ($title == 'Contact')
                     echo 'class="current"'; ?>><a href="contact.php">Contact</a></li>
+                <?php if (isset($_SESSION['email'])) { // User is logged in, show logout link ?>
+                    <li><a href="logged_out.php">Logout</a></li>
+                <?php } else { // User is not logged in, show login/register links ?>
+                    <li><a href="login.php" <?php if ($currentPage == 'login.php') {
+                        echo 'id="here"';
+                    } ?>>Login</a></li>
+                <?php } ?>
             </ul>
         </nav>
     </header>

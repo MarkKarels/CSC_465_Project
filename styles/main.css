@@ -8,6 +8,7 @@ body {
 
 header {
   background-color: #cc5500;
+  position: relative;
   color: #fff;
   display: flex;
   flex-direction: row;
@@ -166,12 +167,12 @@ nav ul li.current a {
 }
 
 #name {
-  font-size: 2em;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  font-size: x-large;
   font-weight: bold;
-  padding-left: 10px;
-  padding-top: 0.74em;
-  align-content: end;
-  height: 10%;
+  transform: translate(-50%, -50%);
 }
 
 @media screen and (max-width: 768px) {

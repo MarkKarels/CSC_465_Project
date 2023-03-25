@@ -2,7 +2,7 @@
 
 <?php
 $title = "Projects";
-require("header.php");
+require("includes/header.php");
 ?>
 
 <section>
@@ -17,5 +17,5 @@ require("header.php");
 </section>
 
 <?php
-include "footer.php";
+include "includes/footer.php";
 ?>

@@ -1,6 +1,6 @@
 <?php
 $title = "Contact";
-require("header.php");
+require("includes/header.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = filter_var($_POST["fullname"], FILTER_SANITIZE_STRING);
@@ -66,5 +66,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </section>
 
 <?php
-include "footer.php";
+include "includes/footer.php";
 ?>
