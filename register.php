@@ -22,10 +22,12 @@ if (isset($_POST['send'])) {
     else {
         //check validity
         $valid_email = filter_var($email, FILTER_VALIDATE_EMAIL); //returns a string or null if empty or false if not valid	
-        if ($valid_email)
+        if ($valid_email) {
             $email = $valid_email;
-        else
+            $folder_name = str_replace(array('@', '.'), '', $email);
+        } else {
             $errors['email'] = 'A valid email is required:';
+        }
     }
 
     //Check to see if email address already exists
@@ -50,21 +52,33 @@ if (isset($_POST['send'])) {
     else
         $password = $password1;
 
-    $firstport = filter_var(trim($_POST['firstport']), FILTER_SANITIZE_NUMBER_INT);
-    if (empty($firstport))
+    if (isset($_POST['firstport']) && (trim($_POST['firstport']) === '0' || trim($_POST['firstport']) === '1')) {
+        $firstport = filter_var(trim($_POST['firstport']), FILTER_SANITIZE_NUMBER_INT);
+    } else {
         $errors['firstport'] = "Please select whether this is your first computer science portfolio or not.";
+    }
 
     $accepted = filter_var($_POST['terms']);
     if (empty($accepted) || $accepted != 'accepted')
         $errors['accepted'] = "You must accept the terms";
 
     if (!$errors) {
-        $sql2 = "INSERT into portfolio_reg (firstName, lastName, emailAddr, pw, firstport) VALUES (?, ?, ?, ?, ?)";
+        // Folder name is email stripped of non-alphanumeric characters
+        $folder = preg_replace("/[^a-zA-Z0-9]/", "", $email);
+        // Make lowercase
+        $folder = strtolower($folder);
+        $sql2 = "INSERT into portfolio_reg (firstName, lastName, emailAddr, pw, firstport, folder) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt2 = mysqli_prepare($dbc, $sql2);
         $pw_hash = password_hash($password, PASSWORD_DEFAULT);
-        mysqli_stmt_bind_param($stmt2, 'ssssi', $firstname, $lastname, $email, $pw_hash, $firstport);
+        mysqli_stmt_bind_param($stmt2, 'ssssis', $firstname, $lastname, $email, $pw_hash, $firstport, $folder);
         mysqli_stmt_execute($stmt2);
         if (mysqli_stmt_affected_rows($stmt2)) {
+            $dirPath = "../../uploads/" . $folder;
+            mkdir($dirPath, 0777);
+
+            // Set permissions for the new directory
+            chmod($dirPath, 0777);
+
             session_start();
             $_SESSION['firstname'] = $firstname;
             header('Location: acct_created.php');
@@ -84,7 +98,7 @@ if (isset($_POST['send'])) {
         <fieldset>
             <legend>Become a Registered User:</legend>
             <?php if ($errors) { ?>
-                <h2 class="warning">Please fix the item(s) indicated.</h2>
+            <h2 class="warning">Please fix the item(s) indicated.</h2>
             <?php } ?>
 
             <?php if ($errors['firstname'])

@@ -3,102 +3,43 @@
 <?php
 $title = "Gallery";
 require 'includes/header.php';
-require_once '../../mysqli_connect.php';
+echo '<script src="./includes/function.js"></script>';
 
-define('COLS', 2);
-define('ROWS', 3);
+echo "<main>";
+if (isset($_SESSION['folder'])) {
+    echo "<h2>Click on an image to view it in a separate window.</h2>";
+    echo "<ul>";
 
-$countQuery = "SELECT COUNT(*) AS numImages FROM Portfolio_Images";
-$countResult = mysqli_query($dbc, $countQuery);
-if (!$countResult) {
-    echo "We are unable to process your request at this time. Please try again later.";
-    include 'includes/footer.php';
-    exit;
+    // This script lists the images in the uploads directory.
+    // This version now shows each image's file size and uploaded date and time.
+
+    // Set the default timezone:
+    date_default_timezone_set('America/New_York');
+    $folder = $_SESSION['folder'];
+    $imgDir = '../../uploads/' . $folder;
+    $files = scandir($imgDir); // Read all the images into an array.
+
+    // Display each image caption as a link to the JavaScript function:
+    foreach ($files as $image) {
+
+        if (substr($image, 0, 1) != '.') { // Ignore anything starting with a period.
+
+            // Get the image's size in pixels:
+            $image_size = getimagesize("$imgDir/$image");
+
+            // Make the image's name URL-safe:
+            $image_name = urlencode($image);
+
+            // Print the information:
+            echo "<li><a href=\"javascript:create_window('$image_name',$image_size[0],$image_size[1])\">$image</a></li>";
+        } // End IF.
+
+    } // End of the foreach loop.
+    echo '</ul></main>';
+} //end isset
+else {
+    echo "<h2>We are sorry, but you must be logged in as a registered user to view images</h2>";
 }
-
-function shortTitle($title)
-{
-    $title = substr($title, 0, -4);
-    $title = str_replace('_', ' ', $title);
-    $title = ucwords($title);
-    return $title;
-}
-
-$countRow = mysqli_fetch_assoc($countResult);
-$numImages = $countRow['numImages'];
-$numPages = ceil($numImages / (COLS * ROWS));
-$pageNumber = isset($_GET['page']) ? intval($_GET['page']) : 1;
-$offset = (COLS * ROWS) * ($pageNumber - 1);
-$imageQuery = "SELECT filename, caption FROM Portfolio_Images LIMIT $offset, " . (COLS * ROWS);
-$imageResult = mysqli_query($dbc, $imageQuery);
-if (!$imageResult) {
-    echo "We are unable to process your request at this time. Please try again later.";
-    include 'includes/footer.php';
-    exit;
-}
-
-$counter = 0;
-$selectedFilename = isset($_GET['filename']) ? $_GET['filename'] : '';
-
-$selectedCaption = '';
-?>
-<main>
-    <h2>Portfolio Project Photos</h2>
-    <?php
-    $firstImage = ($offset + 1);
-    $lastImage = min($firstImage + (COLS * ROWS) - 1, $numImages);
-    ?>
-    <p id="picCount">Displaying images
-        <?= $firstImage ?> to
-        <?= $lastImage ?> of
-        <?= $numImages ?>
-    </p>
-    <section id="gallery">
-        <table id="thumbs">
-            <?php
-            while ($imageRow = mysqli_fetch_assoc($imageResult)) {
-                if ($counter % COLS == 0) {
-                    echo "<tr>";
-                }
-                echo '<td><a href="gallery.php?filename=' . $imageRow['filename'] . '&page=' . $pageNumber . '"><img src="images/' . $imageRow['filename'] . '" alt="' . shortTitle($imageRow['caption']) . '" width="80" height="54"></a></td>';
-
-                if ($selectedFilename == '' || $selectedFilename == $imageRow['filename']) {
-                    $selectedFilename = $imageRow['filename'];
-                    $selectedCaption = $imageRow['caption'];
-                }
-
-                $counter++;
-            }
-            while ($counter % COLS != 0) {
-                echo '<td></td>';
-                $counter++;
-            }
-            if ($counter % COLS == 0) {
-                echo "</tr>";
-            }
-
-            if ($pageNumber == 1 && $lastImage < $numImages) {
-                // Display Next link only
-                echo '<tr><td colspan="' . (COLS - 1) . '"></td><td><a href="gallery.php?page=' . ($pageNumber + 1) . '&$start=' . ($offset + (COLS * ROWS) + 1) . '">Next&gt;&gt;</a></td></tr>';
-            } else if ($pageNumber > 1 && $lastImage < $numImages) {
-                // Display Prev and Next links
-                echo '<tr><td><a href="gallery.php?page=' . ($pageNumber - 1) . '&$start=' . ($offset - (COLS * ROWS) + 1)
-                    . '">&lt;&lt;Prev</a></td><td align="right"><a href="gallery.php?page=' . ($pageNumber + 1) . '&$start=' . ($offset + (COLS * ROWS)) . '">Next&gt;&gt;</a></td></tr>';
-            } else if ($pageNumber > 1) {
-                // Display Prev link only
-                echo '<tr><td><a href="gallery.php?page=' . ($pageNumber - 1) . '&$start=' . ($offset - (COLS * ROWS) + 1) . '">&lt;&lt;Prev</a></td><td></td></tr>';
-            }
-            ?>
-        </table>
-        <figure id="main_image">
-            <img src="images/<?= $selectedFilename ?>" alt="<?= shortTitle($selectedCaption) ?>">
-            <figcaption>
-                <?= $selectedCaption ?>
-            </figcaption>
-        </figure>
-    </section>
-</main>
-<?php
 include 'includes/footer.php';
 echo '<link rel="stylesheet" type="text/css" href="styles/gallery.css">';
 ?>

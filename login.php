@@ -1,6 +1,6 @@
 <?php
 $title = "Login";
-require("secure_conn.php");
+require_once 'secure_conn.php';
 require("includes/header.php");
 if (isset($_POST['login'])) {
     $errors = array();
@@ -24,7 +24,7 @@ if (isset($_POST['login'])) {
     while (!$errors) {
         require_once('../../mysqli_connect.php'); // Connect to the db.
         //Query for email
-        $sql = "SELECT firstName, emailAddr, pw FROM portfolio_reg WHERE emailAddr = ?";
+        $sql = "SELECT firstName, emailAddr, pw, folder FROM portfolio_reg WHERE emailAddr = ?";
         $stmt = mysqli_prepare($dbc, $sql);
         mysqli_stmt_bind_param($stmt, 's', $email);
         mysqli_stmt_execute($stmt);
@@ -37,11 +37,12 @@ if (isset($_POST['login'])) {
             $pw_hash = $result2['pw'];
             if (password_verify($password, $pw_hash)) { //passwords match
                 $firstName = $result2['firstName'];
-
+                $folder = $result2['folder'];
                 // Start session and store user info in session variables
                 session_start();
                 $_SESSION['firstName'] = $firstName;
                 $_SESSION['email'] = $email;
+                $_SESSION['folder'] = $folder;
 
                 // Redirect to logged_in.php
                 header('Location: dashboard.php');
