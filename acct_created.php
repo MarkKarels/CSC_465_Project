@@ -1,4 +1,5 @@
 <?php
+$title = "Account Created";
 session_start();
 require_once 'secure_conn.php';
 if (isset($_SESSION['firstname'])) {

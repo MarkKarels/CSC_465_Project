@@ -1,4 +1,5 @@
 <?php
+$title = "Logged In";
 session_start();
 
 if (isset($_SESSION['firstName']) && isset($_SESSION['email'])) {

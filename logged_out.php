@@ -1,4 +1,5 @@
 <?php
+$title = "Logged Out";
 session_start();
 require_once 'reg_conn.php';
 if (isset($_SESSION['email'])) {

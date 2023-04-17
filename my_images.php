@@ -1,5 +1,6 @@
 <?php
-require './includes/header.php';
+$title = "My Images";
+require 'includes/header.php';
 echo '<script src="./includes/function.js"></script>';
 
 echo "<main>";

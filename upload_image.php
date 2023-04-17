@@ -1,5 +1,6 @@
 <?php
-require './includes/header.php';
+$title = "Upload An Image";
+require 'includes/header.php';
 echo "<main>";
 if (isset($_SESSION['email'])) {
 	// Check if the form has been submitted:
