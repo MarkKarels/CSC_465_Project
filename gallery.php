@@ -1,41 +1,101 @@
-<!-- Mark Karels -->
-
 <?php
 $title = "Gallery";
 require 'includes/header.php';
-echo '<script src="./includes/function.js"></script>';
+function shortTitle($title)
+{
+    $title = substr($title, 0, -4);
+    $title = str_replace('_', ' ', $title);
+    $title = ucwords($title);
+    return $title;
+}
+
+// echo '<script src="./includes/function.js"></script>';
+
+define('COLS', 2);
+define('ROWS', 3);
 
 echo "<main>";
 if (isset($_SESSION['folder'])) {
+    echo "<h2><a href=\"upload_image.php\">Click Here To Upload Image</a></h2>";
     echo "<h2>Click on an image to view it in a separate window.</h2>";
-    echo "<ul>";
-
-    // This script lists the images in the uploads directory.
-    // This version now shows each image's file size and uploaded date and time.
 
     // Set the default timezone:
     date_default_timezone_set('America/New_York');
     $folder = $_SESSION['folder'];
     $imgDir = '../../uploads/' . $folder;
-    $files = scandir($imgDir); // Read all the images into an array.
+    $files = array_diff(scandir($imgDir), array('.', '..')); // Read all the images into an array and remove '.' and '..' entries.
 
-    // Display each image caption as a link to the JavaScript function:
-    foreach ($files as $image) {
+    $numImages = count($files);
+    $numPages = ceil($numImages / (COLS * ROWS));
+    $pageNumber = isset($_GET['page']) ? intval($_GET['page']) : 1;
+    $offset = (COLS * ROWS) * ($pageNumber - 1);
+    $files = array_slice($files, $offset, COLS * ROWS);
 
-        if (substr($image, 0, 1) != '.') { // Ignore anything starting with a period.
+    $counter = 0;
+    ?>
 
-            // Get the image's size in pixels:
-            $image_size = getimagesize("$imgDir/$image");
+<section id="gallery">
+    <table id="thumbs">
+        <?php
+            foreach ($files as $image) {
 
-            // Make the image's name URL-safe:
-            $image_name = urlencode($image);
+                if ($counter % COLS == 0) {
+                    echo "<tr>";
+                }
 
-            // Print the information:
-            echo "<li><a href=\"javascript:create_window('$image_name',$image_size[0],$image_size[1])\">$image</a></li>";
-        } // End IF.
+                $image_name = urlencode($image);
+                $image_size = getimagesize("$imgDir/$image");
 
-    } // End of the foreach loop.
-    echo '</ul></main>';
+                echo '<td><a href="gallery.php?page=' . $pageNumber . '&image=' . $image_name . '"><img src="thumbnail.php?image=' . $image_name . '" alt="' . $image . '" width="80" height="54"></a></td>';
+
+                $counter++;
+                if ($counter % COLS == 0) {
+                    echo "</tr>";
+                }
+            }
+            while ($counter % COLS != 0) {
+                echo '<td></td>';
+                $counter++;
+            }
+            ?>
+        <tr>
+            <td colspan="<?php echo COLS; ?>" align="center">
+                <?php
+                    if ($pageNumber > 1) {
+                        echo '<a href="gallery.php?page=' . ($pageNumber - 1) . '">&lt;&lt;Prev</a>';
+                    }
+                    for ($i = 1; $i <= $numPages; $i++) {
+                        if ($i == $pageNumber) {
+                            echo " $i ";
+                        } else {
+                            echo ' <a href="gallery.php?page=' . $i . '">' . $i . '</a> ';
+                        }
+                    }
+                    if ($pageNumber < $numPages) {
+                        echo '<a href="gallery.php?page=' . ($pageNumber + 1) . '">Next&gt;&gt;</a>';
+                    }
+                    ?>
+            </td>
+        </tr>
+    </table>
+    <?php
+        if (isset($_GET['image'])) {
+            $selectedImage = urldecode($_GET['image']);
+        } else {
+            $selectedImage = $files[0]; // Default to the first image in the folder.
+        }
+        $selectedImageSrc = $imgDir . '/' . $selectedImage;
+        echo '<figure id="main_image">
+        <img id="large_image" src="thumbnail.php?image=' . urlencode($files[0]) . '&large=true" alt="' . shortTitle($files[0]) . '">
+        <figcaption>' . shortTitle($selectedImage) . '</figcaption>
+        </figure>';
+
+        ?>
+    <div style="text-align: center;"></div>
+</section>
+
+<?php
+    echo '</main>';
 } //end isset
 else {
     echo "<h2>We are sorry, but you must be logged in as a registered user to view images</h2>";
@@ -43,3 +103,19 @@ else {
 include 'includes/footer.php';
 echo '<link rel="stylesheet" type="text/css" href="styles/gallery.css">';
 ?>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var thumbnailImages = document.querySelectorAll("#thumbs a");
+    var mainImage = document.querySelector("#main_image img");
+
+    thumbnailImages.forEach(function(thumbnail) {
+        thumbnail.addEventListener("click", function(event) {
+            event.preventDefault();
+            var selectedImageSrc = this.href.replace("gallery.php", "thumbnail.php") +
+                "&large=true";
+            mainImage.src = selectedImageSrc;
+            mainImage.alt = this.children[0].alt;
+        });
+    });
+});
+</script>
