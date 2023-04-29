@@ -29,7 +29,8 @@ session_start();
         <nav>
             <ul>
                 <li <?php if ($title == 'Engineering Personal Portfolio')
-                    echo 'class="current"'; ?>><a href="index.php">Home</a></li>
+                    echo 'class="current"'; ?>><a
+                        href="index.php">Home</a></li>
                 <li <?php if ($title == 'Projects')
                     echo 'class="current"'; ?>><a href="projects.php">Projects</a></li>
                 <li <?php if ($title == 'School Schedule')
@@ -37,18 +38,15 @@ session_start();
                 </li>
                 <li <?php if ($title == 'Resume')
                     echo 'class="current"'; ?>><a href="resume.php">Resume</a></li>
-                <li <?php if ($title == 'Work History')
-                    echo 'class="current"'; ?>><a href="work-history.php">Work</a>
-                </li>
                 <li <?php if ($title == 'Gallery')
                     echo 'class="current"'; ?>><a href="gallery.php">Gallery</a></li>
                 <li <?php if ($title == 'Contact')
                     echo 'class="current"'; ?>><a href="contact.php">Contact</a></li>
                 <?php if (isset($_SESSION['email'])) { // User is logged in, show logout link ?>
-                <li><a href="logged_out.php">Logout</a></li>
+                    <li><a href="logged_out.php">Logout</a></li>
                 <?php } else { ?>
-                <li <?php if ($title == 'Login')
-                    echo 'class="current"'; ?>><a href="login.php">Login</a></li>
+                    <li <?php if ($title == 'Login')
+                        echo 'class="current"'; ?>><a href="login.php">Login</a></li>
                 <?php } ?>
             </ul>
         </nav>
