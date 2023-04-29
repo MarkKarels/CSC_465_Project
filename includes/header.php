@@ -39,8 +39,8 @@ session_start();
                 <li <?php if ($title == 'Resume')
                     echo 'class="current"'; ?>><a href="resume.php">Resume</a></li>
                 <li <?php if ($title == 'Work History')
-                    echo 'class="current"'; ?>><a href="work-history.php">Work
-                        History</a></li>
+                    echo 'class="current"'; ?>><a href="work-history.php">Work</a>
+                </li>
                 <li <?php if ($title == 'Gallery')
                     echo 'class="current"'; ?>><a href="gallery.php">Gallery</a></li>
                 <li <?php if ($title == 'Contact')

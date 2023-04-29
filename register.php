@@ -98,7 +98,7 @@ if (isset($_POST['send'])) {
         <fieldset>
             <legend>Become a Registered User:</legend>
             <?php if ($errors) { ?>
-            <h2 class="warning">Please fix the item(s) indicated.</h2>
+                <h2 class="warning">Please fix the item(s) indicated.</h2>
             <?php } ?>
 
             <?php if ($errors['firstname'])
@@ -161,7 +161,7 @@ if (isset($_POST['send'])) {
                 <input type="checkbox" name="terms" value="accepted" id="terms" <?php if ($accepted) {
                     echo 'checked';
                 } ?>>
-                <label for="terms">I accept the terms of using this website</label>
+                <label for="terms">I accept the <a href="terms.html">terms</a> of using this website</label>
             </p>
             <p>
                 <input name="send" type="submit" value="Register">
