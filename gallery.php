@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
+}
 $title = "Gallery";
 require 'includes/header.php';
 function shortTitle($title)
@@ -34,9 +40,9 @@ if (isset($_SESSION['folder'])) {
     $counter = 0;
     ?>
 
-<section id="gallery">
-    <table id="thumbs">
-        <?php
+    <section id="gallery">
+        <table id="thumbs">
+            <?php
             foreach ($files as $image) {
 
                 if ($counter % COLS == 0) {
@@ -58,9 +64,9 @@ if (isset($_SESSION['folder'])) {
                 $counter++;
             }
             ?>
-        <tr>
-            <td colspan="<?php echo COLS; ?>" align="center">
-                <?php
+            <tr>
+                <td colspan="<?php echo COLS; ?>" align="center">
+                    <?php
                     if ($pageNumber > 1) {
                         echo '<a href="gallery.php?page=' . ($pageNumber - 1) . '">&lt;&lt;Prev</a>';
                     }
@@ -75,10 +81,10 @@ if (isset($_SESSION['folder'])) {
                         echo '<a href="gallery.php?page=' . ($pageNumber + 1) . '">Next&gt;&gt;</a>';
                     }
                     ?>
-            </td>
-        </tr>
-    </table>
-    <?php
+                </td>
+            </tr>
+        </table>
+        <?php
         if (isset($_GET['image'])) {
             $selectedImage = urldecode($_GET['image']);
         } else {
@@ -91,10 +97,10 @@ if (isset($_SESSION['folder'])) {
         </figure>';
 
         ?>
-    <div style="text-align: center;"></div>
-</section>
+        <div style="text-align: center;"></div>
+    </section>
 
-<?php
+    <?php
     echo '</main>';
 } //end isset
 else {
@@ -104,18 +110,18 @@ include 'includes/footer.php';
 echo '<link rel="stylesheet" type="text/css" href="styles/gallery.css">';
 ?>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    var thumbnailImages = document.querySelectorAll("#thumbs a");
-    var mainImage = document.querySelector("#main_image img");
+    document.addEventListener("DOMContentLoaded", function () {
+        var thumbnailImages = document.querySelectorAll("#thumbs a");
+        var mainImage = document.querySelector("#main_image img");
 
-    thumbnailImages.forEach(function(thumbnail) {
-        thumbnail.addEventListener("click", function(event) {
-            event.preventDefault();
-            var selectedImageSrc = this.href.replace("gallery.php", "thumbnail.php") +
-                "&large=true";
-            mainImage.src = selectedImageSrc;
-            mainImage.alt = this.children[0].alt;
+        thumbnailImages.forEach(function (thumbnail) {
+            thumbnail.addEventListener("click", function (event) {
+                event.preventDefault();
+                var selectedImageSrc = this.href.replace("gallery.php", "thumbnail.php") +
+                    "&large=true";
+                mainImage.src = selectedImageSrc;
+                mainImage.alt = this.children[0].alt;
+            });
         });
     });
-});
 </script>

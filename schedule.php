@@ -1,6 +1,13 @@
 <!-- Mark Karels -->
 
 <?php
+session_start();
+
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
+}
+
 $title = "School Schedule";
 include "includes/header.php";
 ?>
