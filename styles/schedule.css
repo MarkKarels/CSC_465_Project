@@ -1,0 +1,34 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+td.highlight {
+  background-color: red;
+  color: white;
+}
+
+.class_block {
+  background-color: red;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  text-align: center;
+  line-height: 1;
+}
