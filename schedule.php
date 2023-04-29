@@ -8,8 +8,7 @@ include "includes/header.php";
 <section>
     <h1>Schedule</h1>
     <p>
-        Here is a breakdown of my school schedule along with course details for all
-        the classes I have taken.
+        Here is my current class schedule for the current semester.
     </p>
     <?php include "schedule_form.php"; ?>
     <?php include "display_schedule.php"; ?>
