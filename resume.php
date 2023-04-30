@@ -6,6 +6,7 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 $title = "Resume";
+require_once 'secure_conn.php';
 require("includes/header.php");
 echo '<link rel="stylesheet" type="text/css" href="styles/resume.css">';
 

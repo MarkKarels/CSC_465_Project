@@ -56,15 +56,26 @@ while ($row = mysqli_fetch_assoc($result)) {
 
             for ($day_of_week = 0; $day_of_week <= 6; $day_of_week++) {
                 $class_name = '';
+                $class_block = '';
+                $delete_button = '';
                 foreach ($classes as $class) {
                     if ($class['day_of_week'] == $day_of_week && $class['start_time'] <= $time && $class['end_time'] >= $time) {
                         $class_name = $class['class_name'];
+                        $class_block = "<div class='class_block'>";
+                        if ($class['start_time'] == $time) {
+                            $delete_button = "<button class='delete-class' data-class-id='{$class['id']}'>Delete</button>";
+                        }
                         break;
                     }
                 }
+
                 echo "<td>";
                 if (!empty($class_name)) {
-                    echo "<div class='class_block'>$class_name</div>";
+                    echo $class_block;
+                    if ($class['start_time'] == $time) {
+                        echo "$class_name $delete_button";
+                    }
+                    echo "</div>";
                 }
                 echo "</td>";
             }

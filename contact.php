@@ -1,5 +1,6 @@
 <?php
 $title = "Contact";
+require_once 'reg_conn.php';
 require("includes/header.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -9,6 +9,10 @@ figure {
 figure img {
   padding: 10px;
   border: 1px solid #ccc;
+  max-width: 400px; /* Set a maximum width for the image */
+  max-height: 400px; /* Set a maximum height for the image */
+  width: auto;
+  height: auto;
 }
 
 /* Wrap the paragraph around the figure */
@@ -24,4 +28,18 @@ section {
   margin: 20px auto;
   max-width: 800px;
   padding: 20px;
+}
+
+/* Add this rule to float the image to the right */
+section img {
+  float: right;
+  margin-left: 20px; /* Add some margin to the left of the image */
+}
+
+section p {
+  float: left;
+}
+
+section {
+  max-width: 60%;
 }

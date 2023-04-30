@@ -1,6 +1,7 @@
 <!-- Mark Karels -->
 <?php
 $title = "Code Testing";
+require_once 'secure_conn.php';
 require("includes/header.php");
 echo '<link rel="stylesheet" type="text/css" href="styles/testing.css">';
 ?>

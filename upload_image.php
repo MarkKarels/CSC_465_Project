@@ -1,5 +1,6 @@
 <?php
 $title = "Upload An Image";
+require_once 'secure_conn.php';
 require 'includes/header.php';
 echo "<section>";
 if (isset($_SESSION['email'])) {
@@ -87,14 +88,14 @@ else {
 ?>
 <h2>Upload an image</h2>
 <form enctype="multipart/form-data" action="upload_image.php" method="post">
-    <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-    <fieldset>
-        <legend>Select a GIF, JPEG or PNG image of 2M or smaller to be uploaded:</legend>
-        <label for="file">
-            File:<input type="file" name="upload" id="file"></label>
-        <label for="submit">And press
-            <input type="submit" name="submit" value="Submit" id="submit"></label>
-    </fieldset>
+	<input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+	<fieldset>
+		<legend>Select a GIF, JPEG or PNG image of 2M or smaller to be uploaded:</legend>
+		<label for="file">
+			File:<input type="file" name="upload" id="file"></label>
+		<label for="submit">And press
+			<input type="submit" name="submit" value="Submit" id="submit"></label>
+	</fieldset>
 </form>
 </section>
 <?php include './includes/footer.php'; ?>

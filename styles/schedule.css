@@ -12,6 +12,8 @@ th,
 td {
   border: 1px solid #ccc;
   padding: 5px;
+  height: 30px;
+  position: relative;
 }
 
 th {
@@ -19,16 +21,33 @@ th {
 }
 
 td.highlight {
-  background-color: red;
+  background-color: #cc5500;
   color: white;
 }
 
 .class_block {
-  background-color: red;
+  display: inline-block;
+  background-color: #cc5500;
   color: white;
   padding: 2px 5px;
   border-radius: 3px;
-  font-size: 0.8em;
+  font-size: 1.25em;
   text-align: center;
   line-height: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 100%;
+}
+
+.delete-class {
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+fieldset {
+  margin-bottom: 20px;
 }

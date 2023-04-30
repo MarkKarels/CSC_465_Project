@@ -1,0 +1,68 @@
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.admin-form fieldset {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  width: 70%;
+  max-width: 800px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.admin-form legend {
+  font-size: 24px;
+  font-weight: bold;
+  color: #00ced1;
+  margin-bottom: 20px;
+}
+
+.admin-form label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.admin-form input[type="text"],
+.admin-form input[type="file"],
+.admin-form textarea {
+  font-size: 16px;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+  width: 50%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.admin-form input[type="submit"] {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #00ced1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.admin-form input[type="submit"]:hover {
+  background-color: #00a3a1;
+}
+
+.admin-form .warning {
+  color: #cc0000;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.admin-form p {
+  margin-bottom: 20px;
+}

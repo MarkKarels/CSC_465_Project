@@ -1,7 +1,9 @@
 <?php
 $title = "Admin";
+require_once 'secure_conn.php';
 define('MAX_SIZE', 1000);
 require 'includes/header.php';
+echo '<link rel="stylesheet" type="text/css" href="styles/admin.css">';
 session_start();
 if (isset($_SESSION['email']) != 'adminprofile@uncw.edu') {
     header("Location: login.php");
@@ -118,19 +120,22 @@ if (isset($_POST['submit'])) {
     exit;
 }
 ?>
-<main>
-    <h2>Admin Upload Site Images</h2>
-    <form action="admin.php" method="post" enctype="multipart/form-data">
-        <label for="site_img">Select an image to upload:</label>
-        <input type="file" name="site_img" id="site_img" accept="image/*"><br><br>
-        <label for="caption">Image Caption:</label>
-        <input type="text" name="caption" id="caption"><br><br>
-        <label for="details">Item Details:</label>
-        <textarea name="details" id="details" rows="4" cols="50"></textarea><br><br>
-        <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE * MAX_SIZE; ?>">
-        <input type="submit" name="submit" value="Upload Image">
+<section>
+    <h2>Admin</h2>
+    <form class="admin-form" action="admin.php" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Upload Site Images</legend>
+            <label for="site_img">Select an image to upload:</label>
+            <input type="file" name="site_img" id="site_img" accept="image/*"><br><br>
+            <label for="caption">Image Caption:</label>
+            <input type="text" name="caption" id="caption"><br><br>
+            <label for="details">Item Details:</label>
+            <textarea name="details" id="details" rows="4" cols="50"></textarea><br><br>
+            <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE * MAX_SIZE; ?>">
+            <input type="submit" name="submit" value="Upload Image">
+        </fieldset>
     </form>
-</main>
+</section>
 <?php // Include the footer and quit the script:
 include('includes/footer.php');
 ?>
