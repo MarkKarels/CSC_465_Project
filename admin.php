@@ -1,7 +1,12 @@
 <?php
 $title = "Admin";
-define('MAX_SIZE', 350);
+define('MAX_SIZE', 1000);
 require 'includes/header.php';
+session_start();
+if (isset($_SESSION['email']) != 'adminprofile@uncw.edu') {
+    header("Location: login.php");
+    exit();
+}
 
 if (isset($_POST['submit'])) {
     if (isset($_FILES['site_img'])) {

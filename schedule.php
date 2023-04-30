@@ -2,7 +2,7 @@
 
 <?php
 session_start();
-
+echo '<link rel="stylesheet" type="text/css" href="styles/schedule.css">';
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
@@ -24,5 +24,4 @@ include "includes/header.php";
 
 <?php
 include "includes/footer.php";
-echo '<link rel="stylesheet" type="text/css" href="styles/schedule.css">';
 ?>

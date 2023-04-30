@@ -4,6 +4,7 @@
 $title = "Register";
 require_once 'secure_conn.php';
 require 'includes/header.php';
+echo '<link rel="stylesheet" type="text/css" href="styles/register.css">';
 
 if (isset($_POST['send'])) {
     $errors = array();
@@ -172,5 +173,4 @@ if (isset($_POST['send'])) {
 
 <?php
 include "includes/footer.php";
-echo '<link rel="stylesheet" type="text/css" href="styles/register.css">';
 ?>
