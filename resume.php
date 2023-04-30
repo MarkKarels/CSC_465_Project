@@ -7,6 +7,7 @@ if (!isset($_SESSION['email'])) {
 }
 $title = "Resume";
 require("includes/header.php");
+echo '<link rel="stylesheet" type="text/css" href="styles/resume.css">';
 
 // Function to get the file extension
 function getFileExtension($file)
@@ -69,5 +70,4 @@ if (isset($_POST['submit'])) {
 </div>
 <?php
 include "includes/footer.php";
-echo '<link rel="stylesheet" type="text/css" href="styles/resume.css">';
 ?>

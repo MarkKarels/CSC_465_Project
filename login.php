@@ -2,6 +2,7 @@
 $title = "Login";
 require_once 'secure_conn.php';
 require("includes/header.php");
+echo '<link rel="stylesheet" type="text/css" href="styles/login.css">';
 if (isset($_POST['login'])) {
     $errors = array();
 
@@ -92,5 +93,4 @@ if (isset($_POST['login'])) {
 </section>
 <?php
 include "includes/footer.php";
-echo '<link rel="stylesheet" type="text/css" href="styles/login.css">';
 ?>

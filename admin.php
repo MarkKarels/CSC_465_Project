@@ -1,4 +1,5 @@
 <?php
+$title = "Admin";
 define('MAX_SIZE', 350);
 require 'includes/header.php';
 
