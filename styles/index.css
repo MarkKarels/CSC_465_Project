@@ -1,0 +1,27 @@
+/* Center the figure */
+figure {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+/* Add some padding and a border around the figure */
+figure img {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Wrap the paragraph around the figure */
+figcaption {
+  margin-top: 10px;
+  font-style: italic;
+  text-align: center;
+  display: inline-block;
+  max-width: 100%;
+}
+
+section {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+}

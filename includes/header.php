@@ -29,10 +29,9 @@ session_start();
         <nav>
             <ul>
                 <li <?php if ($title == 'Engineering Personal Portfolio')
-                    echo 'class="current"'; ?>><a
-                        href="index.php">Home</a></li>
-                <li <?php if ($title == 'Projects')
-                    echo 'class="current"'; ?>><a href="projects.php">Projects</a></li>
+                    echo 'class="current"'; ?>><a href="index.php">Home</a></li>
+                <li <?php if ($title == 'Code Testing')
+                    echo 'class="current"'; ?>><a href="testing.php">Code</a></li>
                 <li <?php if ($title == 'School Schedule')
                     echo 'class="current"'; ?>><a href="schedule.php">Schedule</a>
                 </li>
@@ -42,12 +41,16 @@ session_start();
                     echo 'class="current"'; ?>><a href="gallery.php">Gallery</a></li>
                 <li <?php if ($title == 'Contact')
                     echo 'class="current"'; ?>><a href="contact.php">Contact</a></li>
-                <?php if (isset($_SESSION['email'])) { // User is logged in, show logout link ?>
-                    <li><a href="logged_out.php">Logout</a></li>
+                <?php if (isset($_SESSION['email']) && $_SESSION['email'] == 'adminprofile@uncw.edu') { ?>
+                <li><a href="admin.php">Admin</a></li>
+                <li><a href="logged_out.php">Logout</a></li>
+                <?php } else if (isset($_SESSION['email'])) { // User is logged in, show logout link ?>
+                <li><a href="logged_out.php">Logout</a></li>
                 <?php } else { ?>
-                    <li <?php if ($title == 'Login')
-                        echo 'class="current"'; ?>><a href="login.php">Login</a></li>
+                <li <?php if ($title == 'Login')
+                            echo 'class="current"'; ?>><a href="login.php">Login</a></li>
                 <?php } ?>
+
             </ul>
         </nav>
     </header>
